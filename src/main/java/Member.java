@@ -11,6 +11,7 @@ public class Member {
         this.name = name;
         this.age = age;
         this.memberID = memberID;
+        this.booksLendOut = 0;
     }
 
     public String getNameOfMember(){

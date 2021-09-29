@@ -9,21 +9,27 @@ public class Book {
         this.name = name;
         this.iban = iban;
         this.ageRestriction = ageRestriction;
+        this.memberID = 0;
+        this.lendOut = false;
     }
 
     public String getBookName(){
         return this.name;
     }
 
-    public int getIban(){
-        return this.iban;
-    }
-
     public boolean getLendOut(){
         return this.lendOut;
     }
 
-    public int getAgeRestriction(){
-        return this.ageRestriction;
+    public void setMembersID(int memberID){
+        this.memberID = memberID;
+    }
+
+    public void setLendOut(boolean LendOut){
+        this.lendOut = LendOut;
+    }
+
+    public int getMemberIdOfBook(){
+        return this.memberID;
     }
 }
