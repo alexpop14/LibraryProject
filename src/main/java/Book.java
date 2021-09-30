@@ -1,9 +1,9 @@
 public class Book {
-    String name;
-    int iban;
-    boolean lendOut;
-    int ageRestriction;
-    int memberID;
+    private String name;
+    private int iban;
+    private boolean lendOut;
+    private int ageRestriction;
+    private int memberID;
 
     Book(String name, int iban, int ageRestriction){
         this.name = name;
@@ -31,5 +31,10 @@ public class Book {
 
     public int getMemberIdOfBook(){
         return this.memberID;
+    }
+
+    @Override
+    public String toString(){
+        return this.name + " " + this.lendOut + " " + this.memberID;
     }
 }

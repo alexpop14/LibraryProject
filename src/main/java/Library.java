@@ -1,10 +1,9 @@
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Random;
 
 public class Library {
-    ArrayList<Book> booksList = new ArrayList<Book>();
-    ArrayList<Member> membersList = new ArrayList<Member>();
+    private ArrayList<Book> booksList = new ArrayList<Book>();
+    private ArrayList<Member> membersList = new ArrayList<Member>();
 
     public void addMember(String name, int age) {
         membersList.add(new Member(name, age, generateRandomNumber()));
@@ -23,25 +22,40 @@ public class Library {
         return null;
     }
 
+    public Book getBooksName(String name){
+        for (Book book : booksList) {
+            if (book.getBookName().equals(name)) {
+                return book;
+            }
+        }
+        return null;
+    }
+
     public void borrowBook(int indexOfBook, Member member) {
         booksList.get(indexOfBook).setLendOut(true);
         booksList.get(indexOfBook).setMembersID(member.getMemberID());
+        member.addBookToBooksOfMember(booksList.get(indexOfBook));
     }
 
-    public void returnBook(Member member){
-        booksList.get(booksList.indexOf(member)).setLendOut(false);
-        booksList.get(booksList.indexOf(member)).setMembersID(member.getMemberID());
+    public void returnBook(String name, Member member){
+        for (Book book : booksList) {
+            if (book.getBookName().equals(name)) {
+                book.setLendOut(false);
+                member.deleteBookOfMember(book);
+                book.setMembersID(0);
+            }
+        }
     }
 
-    public void getBook(int indexOfBook){
-        System.out.println(booksList.get(indexOfBook).getBookName());
-        System.out.println(booksList.get(indexOfBook).getLendOut());
-        System.out.println(booksList.get(indexOfBook).getMemberIdOfBook());
+    public ArrayList<Book> getBooksList() {
+        return booksList;
     }
 
     public void showAvailableBooks() {
         for (Book book : booksList) {
+            if(book.getMemberIdOfBook() == 0){
             System.out.println(book.getBookName());
+            }
         }
     }
 
@@ -49,6 +63,4 @@ public class Library {
         Random rand = new Random();
         return rand.nextInt(100000000);
     }
-
-
 }

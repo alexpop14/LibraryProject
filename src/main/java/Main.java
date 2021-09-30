@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -18,15 +17,16 @@ public class Main {
 
 
         System.out.println("-------------------------------");
-        System.out.println(library.getMember("Alex").getMemberID());
+        System.out.print("MemberID of User: ");
+        System.out.println(library.getMember("Elias").getMemberID());
         System.out.println("----------Book before borrow-----------");
-        library.getBook(0);
+        System.out.println(library.getBooksList().get(0).toString());
         System.out.println("-------------Book after borrow---------------");
-        library.borrowBook(0, library.getMember("Alex"));
-        library.getBook(0);
+        library.borrowBook(0, library.getMember("Elias"));
+        System.out.println(library.getBooksList().get(0).toString());
         System.out.println("----------Book after return-------------");
-        library.returnBook(library.getMember("Alex"));
-        library.getBook(0);
+        library.returnBook("Way of the Wolf", library.getMember("Elias"));
+        System.out.println(library.getBooksList().get(0).toString());
     }
 
 
