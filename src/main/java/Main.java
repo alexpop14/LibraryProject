@@ -5,28 +5,28 @@ public class Main {
 
     public static void main(String[] args) {
         Library library = new Library();
-        library.addMember("Alex", 21);
-        library.addMember("Fabian", 18);
-        library.addMember("Elias",17);
-        library.addMember("Marvin", 17);
 
-        library.addBook("Way of the Wolf", 14);
-        library.addBook("???",6);
-        library.addBook("The great Gatsby", 16);
-        library.addBook("Middlemarch", 5);
+        library.addNewMember("Alex",21);
+        library.addNewMember("Elias",17);
+        library.addNewMember("Fabian",18);
+        library.addNewMember("Marvin",17);
 
+        library.addNewBook("Way of the Wolf", 14);
+        library.addNewBook("???", 20);
+        library.addNewBook("The great Gatsby", 18);
+        library.addNewBook("Middlemarch", 5);
 
         System.out.println("-------------------------------");
         System.out.print("MemberID of User: ");
         System.out.println(library.getMember("Elias").getMemberID());
         System.out.println("----------Book before borrow-----------");
-        System.out.println(library.getBooksList().get(0).toString());
+        System.out.println(library.getBooksName("???"));
         System.out.println("-------------Book after borrow---------------");
         library.borrowBook(0, library.getMember("Elias"));
-        System.out.println(library.getBooksList().get(0).toString());
+        System.out.println(library.getBooksName("???"));
         System.out.println("----------Book after return-------------");
         library.returnBook("Way of the Wolf", library.getMember("Elias"));
-        System.out.println(library.getBooksList().get(0).toString());
+        System.out.println(library.getBooksName("???"));
     }
 
 
@@ -39,7 +39,7 @@ public class Main {
 
 
 
-
+/*
 
 
     public void addWithConsole(){
@@ -68,5 +68,5 @@ public class Main {
                 System.out.println("Wrong input, please check it!");
         }
     }
-
+*/
 }

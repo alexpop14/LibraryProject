@@ -17,9 +17,8 @@ public class Book {
         return this.name;
     }
 
-    public boolean getLendOut(){
-        return this.lendOut;
-    }
+    public int getIban(){return this.iban;}
+
 
     public void setMembersID(int memberID){
         this.memberID = memberID;
@@ -27,10 +26,6 @@ public class Book {
 
     public void setLendOut(boolean LendOut){
         this.lendOut = LendOut;
-    }
-
-    public int getMemberIdOfBook(){
-        return this.memberID;
     }
 
     @Override

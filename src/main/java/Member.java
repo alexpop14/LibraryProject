@@ -21,27 +21,13 @@ public class Member {
         return this.memberID;
     }
 
-    public void addBookToBooksOfMember(Book book){
-        this.booksOfMember.add(book);
-    }
-
     public void deleteBookOfMember(Book book){
         this.booksOfMember.remove(book);
-    }
-
-    public void getBooksOfMember(Book book){
-        this.booksOfMember.get(booksOfMember.indexOf(book));
     }
 
     public ArrayList<Book> getArrayListOfBooks(){
         return this.booksOfMember;
     }
 
-    public int getAgeOfMember(){
-        return this.age;
-    }
 
-    public int getBooksLendOut(){
-        return this.booksLendOut;
-    }
 }

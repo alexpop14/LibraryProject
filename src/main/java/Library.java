@@ -1,20 +1,24 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Library {
-    private ArrayList<Book> booksList = new ArrayList<Book>();
-    private ArrayList<Member> membersList = new ArrayList<Member>();
+    private HashMap<Integer, Book> booksMap = new HashMap();
+    private HashMap<Integer, Member> membersMap = new HashMap();
 
-    public void addMember(String name, int age) {
-        membersList.add(new Member(name, age, generateRandomNumber()));
+    public void addNewMember(String name, int age){
+        int randomID = generateRandomNumber();
+        membersMap.put(randomID, new Member(name, age, randomID));
     }
 
-    public void addBook(String bookName, int ageRestriction) {
-        booksList.add(new Book(bookName, generateRandomNumber(), ageRestriction));
+    public void addNewBook(String name, int ageRestriction){
+        int randomID = generateRandomNumber();
+        booksMap.put(randomID, new Book(name, randomID, ageRestriction));
     }
+
 
     public Member getMember(String name){
-        for (Member member : membersList) {
+        for (Member member : membersMap.values()) {
             if (member.getNameOfMember().equals(name)) {
                 return member;
             }
@@ -22,8 +26,15 @@ public class Library {
         return null;
     }
 
+
+
+    public int generateRandomNumber() {
+        Random rand = new Random();
+        return rand.nextInt(100000000);
+    }
+
     public Book getBooksName(String name){
-        for (Book book : booksList) {
+        for (Book book : booksMap.values()) {
             if (book.getBookName().equals(name)) {
                 return book;
             }
@@ -31,36 +42,21 @@ public class Library {
         return null;
     }
 
-    public void borrowBook(int indexOfBook, Member member) {
-        booksList.get(indexOfBook).setLendOut(true);
-        booksList.get(indexOfBook).setMembersID(member.getMemberID());
-        member.addBookToBooksOfMember(booksList.get(indexOfBook));
+    public void borrowBook(int bookID, int memberID) {
+        booksMap.values().remove(bookID);
+        booksMap.get(bookID).setLendOut(true);
+        booksMap.get(bookID).setMembersID(bookID);
+        .addBookToBooksOfMember(booksMap.get(indexOfBook));
     }
 
+
     public void returnBook(String name, Member member){
-        for (Book book : booksList) {
+        for (Book book : booksMap.values()) {
             if (book.getBookName().equals(name)) {
                 book.setLendOut(false);
                 member.deleteBookOfMember(book);
                 book.setMembersID(0);
             }
         }
-    }
-
-    public ArrayList<Book> getBooksList() {
-        return booksList;
-    }
-
-    public void showAvailableBooks() {
-        for (Book book : booksList) {
-            if(book.getMemberIdOfBook() == 0){
-            System.out.println(book.getBookName());
-            }
-        }
-    }
-
-    public int generateRandomNumber() {
-        Random rand = new Random();
-        return rand.nextInt(100000000);
     }
 }
