@@ -1,15 +1,26 @@
-import java.util.Scanner;
+import com.audi.ja.libraryAlex.service.LibraryService;
 
 public class Main {
-    Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Library library = new Library();
+        LibraryService libraryService = new LibraryService();
 
-        library.addNewMember("Alex",21);
-        library.addNewMember("Elias",17);
-        library.addNewMember("Fabian",18);
-        library.addNewMember("Marvin",17);
+        libraryService.returnBook(47411039);
+/*
+
+
+
+        library.borrowBook(67791741, 26424155);
+        library.borrowBook(98258201, 26424155);
+        library.borrowBook(98258201, 31902233);
+
+
+        library.getBookFromDbByIsbn(47389228);
+
+        library.addNewMember("Elias","2002-05-14");
+        library.addNewMember("Fabian","2001-12-21");
+        library.addNewMember("Marvin","2003-10-30");
+        library.addNewMember("Alex","2000-03-14");
 
         library.addNewBook("Way of the Wolf", 14);
         library.addNewBook("???", 20);
@@ -19,14 +30,16 @@ public class Main {
         System.out.println("-------------------------------");
         System.out.print("MemberID of User: ");
         System.out.println(library.getMember("Elias").getMemberID());
-        System.out.println("----------Book before borrow-----------");
+        System.out.println("----------com.audi.ja.libraryAlex.model.Book before borrow-----------");
         System.out.println(library.getBooksName("???"));
-        System.out.println("-------------Book after borrow---------------");
-        library.borrowBook(0, library.getMember("Elias"));
+        System.out.println("-------------com.audi.ja.libraryAlex.model.Book after borrow---------------");
+        library.borrowBook(library.getBooksIban("???"),library.getMember("Elias").getMemberID());
         System.out.println(library.getBooksName("???"));
-        System.out.println("----------Book after return-------------");
-        library.returnBook("Way of the Wolf", library.getMember("Elias"));
+        System.out.println("----------com.audi.ja.libraryAlex.model.Book after return-------------");
+        library.returnBook(library.getBooksIban("???"), library.getMember("Elias").getMemberID());
         System.out.println(library.getBooksName("???"));
+
+*/
     }
 
 
