@@ -5,9 +5,9 @@ public class Main {
     public static void main(String[] args) {
         LibraryService libraryService = new LibraryService();
 
-        libraryService.returnBook(47411039);
+        libraryService.getBookFromDbByIsbn(47389228);
 /*
-
+libraryService.returnBook(47411039);
 
 
         library.borrowBook(67791741, 26424155);

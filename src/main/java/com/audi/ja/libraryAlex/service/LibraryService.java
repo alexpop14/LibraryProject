@@ -8,63 +8,32 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class LibraryService {
-    private HashMap<Integer, Book> booksMap = new HashMap();
-    private HashMap<Integer, Member> membersMap = new HashMap();
     private LibraryRepository libraryRepository = new LibraryRepository();
 
     public void getBookFromDbByIsbn(int isbn){
-        libraryRepository.getBookByIsbn(isbn);
+        System.out.println(libraryRepository.getBookByIsbn(isbn).toString());
     }
 
     public void addNewMember(String name, String date){
         int randomID = generateRandomNumber();
-        membersMap.put(randomID, new Member(randomID, name, date));
         libraryRepository.insertMemberInDb(new Member(randomID, name, date));
     }
 
     public void addNewBook(String name, int ageRestriction){
         int randomID = generateRandomNumber();
-        booksMap.put(randomID, new Book(randomID,name,ageRestriction));
         libraryRepository.insertBooksInDb(new Book(randomID,name,ageRestriction));
     }
 
-    public void getAllBooks(){
+    public void showAllBooks(){
         libraryRepository.getAllBooks();
     }
 
-    public Member getMember(String name){
-        for (Member member : membersMap.values()) {
-            if (member.getNameOfMember().equals(name)) {
-                return member;
-            }
-        }
-        return null;
-    }
 
 
     public int generateRandomNumber() {
         Random rand = new Random();
         return rand.nextInt(100000000);
     }
-
-    public Book getBooksName(String name){
-        for (Book book : booksMap.values()) {
-            if (book.getBookName().equals(name)) {
-                return book;
-            }
-        }
-        return null;
-    }
-
-    public int getBooksIban(String name){
-        for (Book book : booksMap.values()) {
-            if (book.getBookName().equals(name)) {
-                return book.getIsbn();
-            }
-        }
-        return 0;
-    }
-
 
     public void borrowBook(int bookID, int memberID) {
         if (!checkIfBookIsBorrowed(bookID)){

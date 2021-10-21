@@ -1,0 +1,36 @@
+body{
+    background-color: #595959FF;
+}
+
+table{
+    width: 100%;
+    color: #FFFFFF;
+    font-size: 25px;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+th{
+    background-color: #D96459;
+    color:white;
+}
+
+button[type="submit"] {
+    border: none;
+    outline: none;
+    height: 45px;
+    width: 110px;
+    background: #D96459;
+    color: #FFF;
+    font-size: 25px;
+    border-radius: 15px;
+}
+
+button[type="submit"]:hover{
+    cursor:pointer;
+    background:#FFFFFF;
+    color: #000000;
+}
+
+tr:nth-child(even) {background: #8C8C8C}
+tr:nth-child(odd) {background: #000000}

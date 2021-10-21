@@ -4,6 +4,9 @@ import com.audi.ja.libraryAlex.model.Book;
 import com.audi.ja.libraryAlex.model.Member;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class LibraryRepository {
@@ -35,7 +38,7 @@ public class LibraryRepository {
         try (Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryAlex", "root", "pop8098");
              PreparedStatement statement = databaseConnection.prepareStatement(sql);
         ){
-            java.sql.Date sqlDate = new java.sql.Date(member.getDate().getTime());
+            java.sql.Date sqlDate = new java.sql.Date(member.getbDay().getTime());
             statement.setInt(1,member.getMemberID());
             statement.setString(2,member.getNameOfMember());
             statement.setDate(3,sqlDate);
@@ -46,9 +49,10 @@ public class LibraryRepository {
         }
     }
 
-    public void getBookByIsbn(int isbn){
+    public Book getBookByIsbn(int isbn){
 
         String sql = "SELECT * FROM books WHERE isbn = ?";
+
 
         try (Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryAlex", "root", "pop8098");
              PreparedStatement statement = databaseConnection.prepareStatement(sql);
@@ -58,18 +62,18 @@ public class LibraryRepository {
             System.out.println("Successfully connected to database.");
 
             while(resultSet.next()){
-                Book book = new Book(resultSet.getInt("isbn"), resultSet.getString("bookName"),
-                        resultSet.getInt("ageRestriction")
-                );
-                System.out.println(book);
+                Book book = new Book(resultSet.getInt("isbn"),resultSet.getString("bookName"),
+                        resultSet.getInt("ageRestriction"));
+                return book;
             }
             resultSet.close();
         } catch(SQLException exception){
             System.out.println("Error while connecting to database: " + exception);
         }
+        return null;
     }
 
-    public void getAllBooks(){
+    public Book getAllBooks(){
 
         String sql = "SELECT * FROM books";
 
@@ -83,12 +87,13 @@ public class LibraryRepository {
                 Book book = new Book(resultSet.getInt("isbn"), resultSet.getString("bookName"),
                         resultSet.getInt("ageRestriction")
                 );
-                System.out.println(book);
+                return book;
             }
             resultSet.close();
         } catch(SQLException exception){
             System.out.println("Error while connecting to database: " + exception);
         }
+        return null;
     }
 
     public int checkIfValue(int isbn){
