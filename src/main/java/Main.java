@@ -4,6 +4,8 @@ public class Main {
 
     public static void main(String[] args) {
         LibraryService libraryService = new LibraryService();
+        libraryService.borrowBook(67791741, 26424155);
+        //libraryService.returnBook(67791741, 26424155);
 
 /*
 libraryService.returnBook(47411039);

@@ -50,6 +50,15 @@ INSERT INTO loan (isbn, memberID, startOfLoan, endOfLoan) VALUES (47411039,26424
 SELECT DISTINCT ;
 
 
+ALTER TABLE loan
+    ADD actualReturn date not null;
+
+ALTER TABLE loan
+    MODIFY actualReturn date DEFAULT NULL;
+
+
+SELECT COUNT(*) as count from loan where isbn = 67791741 AND actualReturn IS NOT NULL;
+
 
 
 

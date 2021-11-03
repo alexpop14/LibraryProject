@@ -5,6 +5,7 @@ import com.audi.ja.libraryAlex.model.Member;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -98,7 +99,7 @@ public class LibraryRepository {
 
     public int checkIfValue(int isbn){
         int count = 0;
-        String sql = "SELECT COUNT(*) as count from loan where isbn = ?;";
+        String sql = "SELECT COUNT(*) as count from loan where isbn = ? AND actualReturn IS NULL;";
 
         try (Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryAlex", "root", "pop8098");
              PreparedStatement statement = databaseConnection.prepareStatement(sql);
@@ -134,14 +135,17 @@ public class LibraryRepository {
 
     }
 
-    public void returnBook(int bookIsbn){
+    public void returnBook(int bookIsbn, int memberID){
 
-        String sql =  "delete from loan where isbn = ?;";
+        String sql =  "UPDATE loan SET actualReturn = ? WHERE isbn = ? AND memberID = ?;";
 
         try (Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryAlex", "root", "pop8098");
              PreparedStatement statement = databaseConnection.prepareStatement(sql);
         ){
-            statement.setInt(1,bookIsbn);
+            java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+            statement.setDate(1, date);
+            statement.setInt(2,bookIsbn);
+            statement.setInt(3,memberID);
             statement.executeUpdate();
         } catch(SQLException exception){
             System.out.println("Error while connecting to database: " + exception);

@@ -49,7 +49,7 @@ public class LibraryService {
     }
 
 
-    public void returnBook(int bookID){
+    public void returnBook(int bookID, int memberID){
         /*
         for (com.audi.ja.libraryAlex.model.Member member : membersMap.values()) {
             if (member.getMemberID() == (booksMap.get(bookID)).getIsbn()){
@@ -57,8 +57,7 @@ public class LibraryService {
                 membersMap.get(memberID).deleteBookOfMember(booksMap.get(memberID));
             }
         }*/
-
-        libraryRepository.returnBook(bookID);
+        libraryRepository.returnBook(bookID, memberID);
     }
 
     public void showMyBooks(int memberId){
