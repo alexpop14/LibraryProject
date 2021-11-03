@@ -114,7 +114,6 @@ public class LibraryRepository {
             System.out.println("Error while connecting to database: " + exception);
         }
         return count;
-
     }
 
 
@@ -144,13 +143,12 @@ public class LibraryRepository {
         ){
             statement.setInt(1,bookIsbn);
             statement.executeUpdate();
-            System.out.println("com.audi.ja.libraryAlex.model.Book successfully returned.");
         } catch(SQLException exception){
             System.out.println("Error while connecting to database: " + exception);
         }
     }
 
-    public void showMyBooks(int memberId){
+    public Book showMyBooks(int memberId){
 
         String sql =  "SELECT books.isbn,bookName, ageRestriction from books inner join loan l on books.isbn = l.isbn where memberID = ?;";
 
@@ -164,12 +162,13 @@ public class LibraryRepository {
                 Book book = new Book(resultSet.getInt("isbn"), resultSet.getString("bookName"),
                         resultSet.getInt("ageRestriction")
                 );
-                System.out.println(book);
+                return book;
             }
-            System.out.println("com.audi.ja.libraryAlex.model.Book successfully returned.");
+            resultSet.close();
         } catch(SQLException exception){
             System.out.println("Error while connecting to database: " + exception);
         }
+        return null;
     }
 
 

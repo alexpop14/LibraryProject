@@ -62,6 +62,6 @@ public class LibraryService {
     }
 
     public void showMyBooks(int memberId){
-        libraryRepository.showMyBooks(memberId);
+        System.out.println(libraryRepository.showMyBooks(memberId).toString());
     }
 }
