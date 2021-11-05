@@ -4,13 +4,22 @@ import com.audi.ja.libraryAlex.model.Book;
 import com.audi.ja.libraryAlex.model.Member;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 
 
 public class LibraryRepository {
+
+    public LibraryRepository() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Error loading driver class");
+        }
+    }
+
     public static void main(String[] args) {
 
     }
@@ -74,7 +83,7 @@ public class LibraryRepository {
         return null;
     }
 
-    public Book getAllBooks(){
+    public List<Book> getAllBooks(){
 
         String sql = "SELECT * FROM books";
 
@@ -83,14 +92,15 @@ public class LibraryRepository {
         ){
             ResultSet resultSet = statement.executeQuery();
             System.out.println("Successfully connected to database.");
-
+            List<Book> booksOfMember = new LinkedList<>();
             while(resultSet.next()){
                 Book book = new Book(resultSet.getInt("isbn"), resultSet.getString("bookName"),
                         resultSet.getInt("ageRestriction")
                 );
-                return book;
+                booksOfMember.add(book);
             }
             resultSet.close();
+            return booksOfMember;
         } catch(SQLException exception){
             System.out.println("Error while connecting to database: " + exception);
         }
@@ -152,9 +162,9 @@ public class LibraryRepository {
         }
     }
 
-    public Book showMyBooks(int memberId){
+    public List<Book> getBooksByMemberId(int memberId){
 
-        String sql =  "SELECT books.isbn,bookName, ageRestriction from books inner join loan l on books.isbn = l.isbn where memberID = ?;";
+        String sql =  "SELECT books.isbn,bookName, ageRestriction from books inner join loan l on books.isbn = l.isbn where memberID = ? and actualReturn IS NULL;";
 
         try (Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryAlex", "root", "pop8098");
              PreparedStatement statement = databaseConnection.prepareStatement(sql);
@@ -162,19 +172,53 @@ public class LibraryRepository {
             statement.setInt(1,memberId);
             ResultSet resultSet = statement.executeQuery();
 
+            List<Book> booksOfMember = new LinkedList<>();
+
             while(resultSet.next()){
                 Book book = new Book(resultSet.getInt("isbn"), resultSet.getString("bookName"),
                         resultSet.getInt("ageRestriction")
                 );
-                return book;
+                booksOfMember.add(book);
             }
             resultSet.close();
+            return booksOfMember;
+        } catch(SQLException exception){
+            System.out.println("Error while connecting to database: " + exception);
+        }
+
+        List<Book> books = new LinkedList<>();
+        Book book = new Book(2145,"DSAGDGDSSGDSS",12);
+        books.add(book);
+
+        return books;
+    }
+
+
+    //--------------------------------------------MEMBERS------------------------------------------------------
+
+    public List<Member> getAllMembers(){
+
+        String sql = "SELECT * FROM members";
+
+        try (Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryAlex", "root", "pop8098");
+             PreparedStatement statement = databaseConnection.prepareStatement(sql);
+        ){
+            ResultSet resultSet = statement.executeQuery();
+            System.out.println("Successfully connected to database.");
+            List<Member> listOfMembers = new LinkedList<>();
+            while(resultSet.next()){
+                Member member = new Member(resultSet.getInt("memberID"), resultSet.getString("memberName"),
+                        resultSet.getDate("bDay")
+                );
+                listOfMembers.add(member);
+            }
+            resultSet.close();
+            return listOfMembers;
         } catch(SQLException exception){
             System.out.println("Error while connecting to database: " + exception);
         }
         return null;
     }
-
 
 
 }

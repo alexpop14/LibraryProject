@@ -38,7 +38,7 @@ public class Book {
     public String toString() {
         return "name = " + name + "\n" +
                 "isbn = " + isbn + "\n" +
-                "ageRestriction = " + ageRestriction;
+                "ageRestriction = " + ageRestriction + "\n";
     }
 }
 

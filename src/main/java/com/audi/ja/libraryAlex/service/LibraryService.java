@@ -4,14 +4,15 @@ import com.audi.ja.libraryAlex.model.Book;
 import com.audi.ja.libraryAlex.model.Member;
 import com.audi.ja.libraryAlex.repository.LibraryRepository;
 
-import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 public class LibraryService {
     private LibraryRepository libraryRepository = new LibraryRepository();
 
-    public void getBookFromDbByIsbn(int isbn){
-        System.out.println(libraryRepository.getBookByIsbn(isbn).toString());
+    public Book getBookFromDbByIsbn(int isbn){
+        return libraryRepository.getBookByIsbn(isbn);
     }
 
     public void addNewMember(String name, String date){
@@ -24,8 +25,8 @@ public class LibraryService {
         libraryRepository.insertBooksInDb(new Book(randomID,name,ageRestriction));
     }
 
-    public void showAllBooks(){
-        libraryRepository.getAllBooks();
+    public List<Book> showAllBooks(){
+        return libraryRepository.getAllBooks();
     }
 
 
@@ -50,17 +51,16 @@ public class LibraryService {
 
 
     public void returnBook(int bookID, int memberID){
-        /*
-        for (com.audi.ja.libraryAlex.model.Member member : membersMap.values()) {
-            if (member.getMemberID() == (booksMap.get(bookID)).getIsbn()){
-                booksMap.get(bookID).setLendOut(true);
-                membersMap.get(memberID).deleteBookOfMember(booksMap.get(memberID));
-            }
-        }*/
         libraryRepository.returnBook(bookID, memberID);
     }
 
-    public void showMyBooks(int memberId){
-        System.out.println(libraryRepository.showMyBooks(memberId).toString());
+    public List<Book> showMyBooks(int memberId){
+        return libraryRepository.getBooksByMemberId(memberId);
+    }
+
+    //--------------------------------------------MEMBERS------------------------------------------------------
+
+    public List<Member> showAllMembers(){
+        return libraryRepository.getAllMembers();
     }
 }

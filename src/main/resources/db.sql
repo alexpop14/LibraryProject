@@ -31,7 +31,7 @@ delete from books where ageRestriction = 20;
 #Test
 INSERT INTO loan (isbn, memberID, startOfLoan, endOfLoan) VALUES (256391,26424155,CURRENT_DATE,(SELECT DATE_ADD(CURRENT_DATE, INTERVAL 30 DAY)));
 #deleteLoan
-delete from loan where isbn = 67791741;
+delete from loan where loan.actualReturn is not null;
 #SelectTest
 SELECT isbn from loan where memberID = 26424155;
 
@@ -58,6 +58,9 @@ ALTER TABLE loan
 
 
 SELECT COUNT(*) as count from loan where isbn = 67791741 AND actualReturn IS NOT NULL;
+
+
+SELECT books.isbn,bookName, ageRestriction from books inner join loan l on books.isbn = l.isbn where memberID = 26424155 and actualReturn IS NULL;
 
 
 
