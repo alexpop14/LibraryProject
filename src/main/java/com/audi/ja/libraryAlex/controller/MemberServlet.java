@@ -1,6 +1,7 @@
 package com.audi.ja.libraryAlex.controller;
 
 import com.audi.ja.libraryAlex.model.Book;
+import com.audi.ja.libraryAlex.model.Member;
 import com.audi.ja.libraryAlex.repository.LibraryRepository;
 import com.audi.ja.libraryAlex.service.LibraryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,14 +23,21 @@ public class MemberServlet extends HttpServlet {
     private LibraryService libraryService = new LibraryService();
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        response.setHeader("Access-Control-Allow-Origin","*");
         String pathInfo = request.getPathInfo();
          if(pathInfo == null || pathInfo.equals("/getallmembers")){
-
-            String responseJson = new ObjectMapper().writeValueAsString(libraryService.showAllMembers());
-
-            PrintWriter writer = response.getWriter();
-            writer.write(responseJson);
+             List<Member> members = libraryService.showAllMembers();
+            sendResponse(response,members);
         }
+
+    }
+
+    private void sendResponse(HttpServletResponse response, Object payload) throws IOException {
+        response.setHeader("Access-Control-Allow-Origin","*");
+        PrintWriter printWriter = response.getWriter();
+
+        String responseJson = new ObjectMapper().writer().writeValueAsString(payload);
+        printWriter.write(responseJson);
+        printWriter.flush();
     }
 }

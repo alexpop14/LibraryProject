@@ -21,10 +21,25 @@ fetch('http://localhost:8080/Gradle___org_example___LibraryProject_1_0_SNAPSHOT_
             tdIsbn.innerHTML = books[i].isbn
             const tdAgeRestriction = document.createElement("td");
             tdAgeRestriction.innerHTML = books[i].ageRestriction;
+            const tdAvailable = document.createElement("button");
+            tdAvailable.innerHTML = "borrow";
+            const tdAvailableBlank = document.createElement("td");
+            tdAvailableBlank.innerHTML = "not available";
 
-            tr.appendChild(tdBookName)
-            tr.appendChild(tdIsbn)
-            tr.appendChild(tdAgeRestriction)
-            mainContainer.appendChild(tr)
+
+
+
+            tr.appendChild(tdBookName);
+            tr.appendChild(tdIsbn);
+            tr.appendChild(tdAgeRestriction);
+
+            if (books[i].lendOut === true){
+                tr.appendChild(tdAvailable);
+            } else {
+                tr.appendChild(tdAvailableBlank);
+            }
+            mainContainer.appendChild(tr);
+
+
         }
 }

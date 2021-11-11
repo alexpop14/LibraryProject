@@ -4,10 +4,8 @@ import com.audi.ja.libraryAlex.model.Book;
 import com.audi.ja.libraryAlex.model.Member;
 
 import java.sql.*;
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TimeZone;
+import java.sql.Date;
+import java.util.*;
 
 
 public class LibraryRepository {
@@ -71,12 +69,12 @@ public class LibraryRepository {
             ResultSet resultSet = statement.executeQuery();
             System.out.println("Successfully connected to database.");
 
-            while(resultSet.next()){
+  /*          while(resultSet.next()){
                 Book book = new Book(resultSet.getInt("isbn"),resultSet.getString("bookName"),
                         resultSet.getInt("ageRestriction"));
                 return book;
             }
-            resultSet.close();
+*/            resultSet.close();
         } catch(SQLException exception){
             System.out.println("Error while connecting to database: " + exception);
         }
@@ -93,9 +91,36 @@ public class LibraryRepository {
             ResultSet resultSet = statement.executeQuery();
             System.out.println("Successfully connected to database.");
             List<Book> booksOfMember = new LinkedList<>();
-            while(resultSet.next()){
+            /*        while(resultSet.next()){
                 Book book = new Book(resultSet.getInt("isbn"), resultSet.getString("bookName"),
                         resultSet.getInt("ageRestriction")
+                );
+                booksOfMember.add(book);
+            }*/
+            resultSet.close();
+            return booksOfMember;
+        } catch(SQLException exception){
+            System.out.println("Error while connecting to database: " + exception);
+        }
+        return null;
+    }
+
+    public List<Book> getAllBooksWithStatus(){
+
+        String sql = "SELECT books.isbn, bookName, ageRestriction, CASE WHEN actualReturn IS NULL THEN 0  ELSE 1 END as lendOut FROM books inner join loan l on books.isbn = l.isbn";
+
+        try (Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryAlex", "root", "pop8098");
+             PreparedStatement statement = databaseConnection.prepareStatement(sql);
+        ){
+            ResultSet resultSet = statement.executeQuery();
+            System.out.println("Successfully connected to database.");
+            List<Book> booksOfMember = new LinkedList<>();
+            while(resultSet.next()){
+                Book book = new Book(
+                        resultSet.getInt("isbn"),
+                        resultSet.getString("bookName"),
+                        resultSet.getInt("ageRestriction"),
+                        resultSet.getBoolean("lendOut")
                 );
                 booksOfMember.add(book);
             }
@@ -174,25 +199,43 @@ public class LibraryRepository {
 
             List<Book> booksOfMember = new LinkedList<>();
 
-            while(resultSet.next()){
+   /*         while(resultSet.next()){
                 Book book = new Book(resultSet.getInt("isbn"), resultSet.getString("bookName"),
                         resultSet.getInt("ageRestriction")
                 );
                 booksOfMember.add(book);
-            }
+            }*/
             resultSet.close();
             return booksOfMember;
         } catch(SQLException exception){
             System.out.println("Error while connecting to database: " + exception);
         }
-
-        List<Book> books = new LinkedList<>();
-        Book book = new Book(2145,"DSAGDGDSSGDSS",12);
-        books.add(book);
-
-        return books;
+        return null;
     }
 
+
+    public List<Integer> getIsbnOfAvailableBooks(){
+
+        String sql =  "SELECT books.isbn from books left join loan l on books.isbn = l.isbn where actualReturn\n" +
+                "IS NOT NULL or NOT EXISTS (SELECT isbn from loan where books.isbn = loan.isbn);";
+
+        try (Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryAlex", "root", "pop8098");
+             PreparedStatement statement = databaseConnection.prepareStatement(sql);
+        ){
+            ResultSet resultSet = statement.executeQuery();
+            List<Integer> isbnList = new ArrayList<Integer>();
+
+            while(resultSet.next()){
+                int isbn = resultSet.getInt("isbn");
+                isbnList.add(isbn);
+            }
+            resultSet.close();
+            return isbnList;
+        } catch(SQLException exception){
+            System.out.println("Error while connecting to database: " + exception);
+        }
+        return null;
+    }
 
     //--------------------------------------------MEMBERS------------------------------------------------------
 
@@ -220,5 +263,27 @@ public class LibraryRepository {
         return null;
     }
 
+
+    public List<Integer> getAllMembersIDs(){
+
+        String sql = "SELECT memberID FROM members";
+
+        try (Connection databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/libraryAlex", "root", "pop8098");
+             PreparedStatement statement = databaseConnection.prepareStatement(sql);
+        ){
+            ResultSet resultSet = statement.executeQuery();
+            System.out.println("Successfully connected to database.");
+            List<Integer> listOfMembersIDs = new LinkedList<>();
+            while(resultSet.next()){
+                int memberID = resultSet.getInt("memberID");
+                listOfMembersIDs.add(memberID);
+            }
+            resultSet.close();
+            return listOfMembersIDs;
+        } catch(SQLException exception){
+            System.out.println("Error while connecting to database: " + exception);
+        }
+        return null;
+    }
 
 }

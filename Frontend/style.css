@@ -15,7 +15,7 @@ th{
     color:white;
 }
 
-button[type="submit"] {
+button{
     border: none;
     outline: none;
     height: 45px;
@@ -26,11 +26,12 @@ button[type="submit"] {
     border-radius: 15px;
 }
 
-button[type="submit"]:hover{
+button:hover{
     cursor:pointer;
     background:#FFFFFF;
     color: #000000;
 }
+
 
 tr:nth-child(even) {background: #8C8C8C}
 tr:nth-child(odd) {background: #000000}

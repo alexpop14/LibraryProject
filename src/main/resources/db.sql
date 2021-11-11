@@ -62,6 +62,15 @@ SELECT COUNT(*) as count from loan where isbn = 67791741 AND actualReturn IS NOT
 
 SELECT books.isbn,bookName, ageRestriction from books inner join loan l on books.isbn = l.isbn where memberID = 26424155 and actualReturn IS NULL;
 
+SELECT isbn from loan where actualReturn IS NOT NULL;
+
+SELECT books.isbn from books left join loan l on books.isbn = l.isbn where actualReturn
+IS NOT NULL or NOT EXISTS (SELECT isbn from loan where books.isbn = loan.isbn);
+
+SELECT isbn from books
+WHERE NOT EXISTS (SELECT isbn from loan where books.isbn = loan.isbn);
+
+SELECT books.isbn, bookName, ageRestriction, CASE WHEN actualReturn IS NULL THEN 0  ELSE 1 END as lendOut FROM books inner join loan l on books.isbn = l.isbn
 
 
-
+SELECT memberID from members;

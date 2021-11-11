@@ -7,12 +7,11 @@ public class Book {
     private int ageRestriction;
     private int memberID;
 
-    public Book(int iban, String name, int ageRestriction){
+    public Book(int iban, String name, int ageRestriction, boolean lendOut){
         this.name = name;
         this.isbn = iban;
         this.ageRestriction = ageRestriction;
-        this.memberID = 0;
-        this.lendOut = false;
+        this.lendOut = lendOut;
     }
 
     public String getBookName(){
@@ -23,6 +22,10 @@ public class Book {
 
     public int getAgeRestriction(){
         return this.ageRestriction;
+    }
+
+    public boolean getLendOut(){
+        return this.lendOut;
     }
 
     public void setMembersID(int memberID){
